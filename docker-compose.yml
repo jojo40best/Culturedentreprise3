@@ -1,0 +1,40 @@
+version: "2"
+
+services:
+  apache_php:
+    build: ./apache_php
+    ports:
+      - "80:80"
+    volumes:
+      - ./site:/var/www/html
+    links:
+      - db
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    links:
+      - db
+    ports:
+      - "8080:8080"
+    environment:
+      PMA_HOSTS: db
+      PMA_PORT: 3306
+  db:
+    image: mysql:5.7
+    volumes:
+      - ./db:/var/lib/mysql
+    ports: 
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: azerty
+      MYSQL_USER: jojo
+      MYSQL_PASSWORD: azerty
+#  firefox:
+#     build: ./firefox
+#     volumes:
+#       - /tmp/.X11-unix:/tmp/.X11-unix:ro
+#       - ~/.Xauthority:/home/user/.Xauthority:ro
+#     environment:
+#       - DISPLAY
+
+
+
